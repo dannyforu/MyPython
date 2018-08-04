@@ -1,5 +1,5 @@
-from MyRSA import RSA
-from MyRSA import Certficate
+import RSA
+import Certficate
 from sort import *
 import time
 import random
