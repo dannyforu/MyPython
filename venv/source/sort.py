@@ -193,9 +193,9 @@ def shellsort(x):
     d = []
     # IncrementSequenceBuild_Hibbard(len(x),d)
     # IncrementSequenceBuild_Sedgewick(len(x),d)
-    #IncrementSequenceBuild_Knuth(len(x), d)
+    # IncrementSequenceBuild_Knuth(len(x), d)
     IncrementSequenceBuild_Gonnet(len(x), d)
-    print(d)
+    # print(d)
     if d[0] == 1:
         for i in range(len(d) - 1, 0, -1):
             shellpass(x, d[i])
