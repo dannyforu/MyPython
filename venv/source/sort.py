@@ -188,13 +188,17 @@ def quicksort(x, start, end):
 
 
 # 希尔排序
-def shellsort(x):
+def shellsort(x,incseq=1):
     # print("5")
     d = []
-    # IncrementSequenceBuild_Hibbard(len(x),d)
-    # IncrementSequenceBuild_Sedgewick(len(x),d)
-    # IncrementSequenceBuild_Knuth(len(x), d)
-    IncrementSequenceBuild_Gonnet(len(x), d)
+    if incseq == 1:
+        IncrementSequenceBuild_Hibbard(len(x),d)
+    elif inseq == 2:
+        IncrementSequenceBuild_Sedgewick(len(x),d)
+    elif incseq == 3:
+        IncrementSequenceBuild_Knuth(len(x), d)
+    elif incseq == 4:
+        IncrementSequenceBuild_Gonnet(len(x), d)
     # print(d)
     if d[0] == 1:
         for i in range(len(d) - 1, 0, -1):
