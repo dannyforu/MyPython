@@ -273,10 +273,10 @@ def IncrementSequenceBuild_Knuth(seqlen, d):
 def IncrementSequenceBuild_Gonnet(seqlen, d):
     t1 = int(seqlen // 2.2)
     while t1 >= 1:
-        d.append(t1)
-        t1 = int(t1 // 2.2)
         if t1 == 2:
             d.append(2)
             d.append(1)
             break
+        d.append(t1)
+        t1 = int(t1 // 2.2)
     return
