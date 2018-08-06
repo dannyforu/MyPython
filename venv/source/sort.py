@@ -193,7 +193,7 @@ def shellsort(x,incseq=1):
     d = []
     if incseq == 1:
         IncrementSequenceBuild_Hibbard(len(x),d)
-    elif inseq == 2:
+    elif incseq == 2:
         IncrementSequenceBuild_Sedgewick(len(x),d)
     elif incseq == 3:
         IncrementSequenceBuild_Knuth(len(x), d)
