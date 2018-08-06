@@ -187,9 +187,11 @@ def quicksort(x, start, end):
     return
 
 
-# 希尔排序
+''' 希尔排序
+x : 待排序的序列
+incseq : 希尔排序增量的类型（缺省=1）：1-Hibbard, 2-Sedgewick, 3-Knuth, 4-Gonnet, 
+'''
 def shellsort(x,incseq=1):
-    # print("5")
     d = []
     if incseq == 1:
         IncrementSequenceBuild_Hibbard(len(x),d)
@@ -279,4 +281,53 @@ def IncrementSequenceBuild_Gonnet(seqlen, d):
             break
         d.append(t1)
         t1 = int(t1 // 2.2)
+    return
+
+#归并排序
+def mergesort(x):
+    step = 1
+    while step < len(x):
+        left = 0
+        right = 0
+        while 1:
+            left = right
+            if left >= len(x):
+                break
+            mid = left + step
+            if mid >= len(x):
+                break
+            right = mid + step
+            if right > len(x):
+                right = len(x)
+            merge(x, left, mid, right)
+        step = step << 1
+    return
+
+
+def merge(x, left, mid, right):
+    i = left
+    j = mid
+    head = left
+    y = []
+    while head < mid:
+        if x[i] <= x[j]:
+            y.append(x[i])
+            i += 1
+            if i >= mid:
+                while j < right:
+                    y.append(x[j])
+                    j += 1
+                break
+        else:
+            y.append(x[j])
+            j += 1
+            if j >= right:
+                while i < mid:
+                    y.append(x[i])
+                    i += 1
+                break
+    j = 0
+    for i in range(left, right):
+        x[i] = y[j]
+        j += 1
     return
