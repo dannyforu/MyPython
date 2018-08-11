@@ -9,10 +9,13 @@ from Crypto.Signature import PKCS1_v1_5 as Signer
 from OpenSSL import crypto
 from Crypto import Random
 import base64
+
 '''
 扩展欧几里得算法
 '''
-def exgcd(a,b,x):
+
+
+def exgcd(a, b, x):
     def exgcd_1(a, b, x):
         if a == 1:
             x[0] = 1
@@ -24,30 +27,36 @@ def exgcd(a,b,x):
         x[0] = y[1] - b // a * y[0]
         return
 
-    exgcd_1(a,b,x)
-    while x[0]<0:
-        x[0]=x[0]+b
-        x[1]=x[1]-a
+    exgcd_1(a, b, x)
+    while x[0] < 0:
+        x[0] = x[0] + b
+        x[1] = x[1] - a
     return
+
 
 '''
 RSA密钥的函数
 '''
+
+
 class RsaKey:
     def __init__(self, keylen=1024):
-        self._pk=crypto.PKey()
-        self._key=self._pk.generate_key(crypto.TYPE_RSA, keylen)
-        self._prikey=crypto.dump_privatekey(crypto.FILETYPE_PEM,self._pk)
-        self._pubkey=crypto.dump_publickey(crypto.FILETYPE_PEM,self._pk)
-        self._KeyLen=self._pk.bits()//8
+        self._pk = crypto.PKey()
+        self._key = self._pk.generate_key(crypto.TYPE_RSA, keylen)
+        self._prikey = crypto.dump_privatekey(crypto.FILETYPE_PEM, self._pk)
+        self._pubkey = crypto.dump_publickey(crypto.FILETYPE_PEM, self._pk)
+        self._KeyLen = self._pk.bits() // 8
         return
 
     def publickey(self):
         return self._pubkey
+
     '''
+    签名
     source: 传入的明文，可以bytes,字符串型, 其他类型参数将抛出异常
     '''
-    def sign(self,source):
+
+    def sign(self, source):
         if type(source) == bytes:
             s1 = source
         elif type(source) == str:
@@ -61,11 +70,13 @@ class RsaKey:
         return signer.sign(h)
 
     '''
+    签名验证
     source: 传入的明文，可以bytes,字符串型, 其他类型参数将抛出异常
     digest: 传入的签名信息，可以bytes,或base64编码的字符串型, 其他类型参数将抛出异常
     pubkey: 用于验证签名的公钥，可以为空，若为空，则使用对象自己的公钥
     '''
-    def verify(self,source,digest,pubkey=None):
+
+    def verify(self, source, digest, pubkey=None):
         if type(source) == bytes:
             s1 = source
         elif type(source) == str:
@@ -82,17 +93,19 @@ class RsaKey:
 
         h = SHA.new(s1)
         if pubkey is None:
-            key=RSA.importKey(self._pubkey)
+            key = RSA.importKey(self._pubkey)
         else:
-            key=RSA.importKey(pubkey)
+            key = RSA.importKey(pubkey)
         verifier = Signer.new(key)
-        return verifier.verify(h,ct1)
+        return verifier.verify(h, ct1)
 
     '''
+    公钥加密
     source: 传入的明文，可以bytes,字符串型, 其他类型参数将抛出异常
     pubkey: 用于加密的公钥，可以为空，若为空，则使用对象自己的公钥
     '''
-    def encrypt(self,source,pubkey=None):
+
+    def encrypt(self, source, pubkey=None):
         if type(source) == bytes:
             s1 = source
         elif type(source) == str:
@@ -100,21 +113,22 @@ class RsaKey:
         else:
             raise ValueError("source type error")
 
-        if len(s1)<=self._KeyLen:
+        if len(s1) <= self._KeyLen:
             if pubkey is None:
-                key=RSA.importKey(self._pubkey)
+                key = RSA.importKey(self._pubkey)
             else:
-                key=RSA.importKey(pubkey)
-            cryptor=Cipher.new(key)
+                key = RSA.importKey(pubkey)
+            cryptor = Cipher.new(key)
             return cryptor.encrypt(s1)
         else:
             raise ValueError("source data is too long")
 
-
     '''
+    私钥解密
     ct: 传入的密文，可以bytes,或base64编码的字符串型, 其他类型参数将抛出异常
     '''
-    def decrypt(self,ct):
+
+    def decrypt(self, ct):
         if type(ct) == bytes:
             ct1 = ct
         elif type(ct) == str:
@@ -122,13 +136,10 @@ class RsaKey:
         else:
             raise ValueError("ct type error")
 
-        if len(ct1)<=self._KeyLen:
-            key=RSA.importKey(self._prikey)
+        if len(ct1) <= self._KeyLen:
+            key = RSA.importKey(self._prikey)
             decrypter = Cipher.new(key)
-            sentinel = Random.new().read(15 + self._KeyLen )
-            return decrypter.decrypt(ct1,sentinel)
+            sentinel = Random.new().read(15 + self._KeyLen)
+            return decrypter.decrypt(ct1, sentinel)
         else:
             raise ValueError("source data is to long")
-
-
-
