@@ -13,7 +13,7 @@ class Certficate:
         return
 
     '''
-    导入证书: 从外部文件中导入证书，以及对应的密钥
+    导入证书: 从外部文件中导入证书，以及对应的密钥，两个文件是使用本类的dumpcert生成
     pcertfile: 证书文件名，为ASN1编码的证书文件
     pkeyfile: 密钥文件名，为PEM编码的密钥数据
     '''
