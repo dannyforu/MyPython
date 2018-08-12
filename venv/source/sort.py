@@ -132,7 +132,11 @@ def buildheap(x, ptype=1):
 
 
 # 快速排序, 非递归方式
-def quicksort2(x, start, end):
+def quicksort2(x, start=-1, end=-1):
+    if start == -1:
+        start = 0
+    if end == -1:
+        end = len(x) - 1
     stack = []
     node = [start, end]
     stack.append(node)
@@ -165,8 +169,12 @@ def quicksort2(x, start, end):
 
 
 # 快速排序, 递归方式
-def quicksort(x, start, end):
+def quicksort(x, start=-1, end=-1):
     # print(start,end)
+    if start == -1:
+        start = 0
+    if end == -1:
+        end = len(x) - 1
     if start >= end:
         return
     key = x[start]
@@ -191,12 +199,14 @@ def quicksort(x, start, end):
 x : 待排序的序列
 incseq : 希尔排序增量的类型（缺省=1）：1-Hibbard, 2-Sedgewick, 3-Knuth, 4-Gonnet, 
 '''
-def shellsort(x,incseq=1):
+
+
+def shellsort(x, incseq=1):
     d = []
     if incseq == 1:
-        IncrementSequenceBuild_Hibbard(len(x),d)
+        IncrementSequenceBuild_Hibbard(len(x), d)
     elif incseq == 2:
-        IncrementSequenceBuild_Sedgewick(len(x),d)
+        IncrementSequenceBuild_Sedgewick(len(x), d)
     elif incseq == 3:
         IncrementSequenceBuild_Knuth(len(x), d)
     elif incseq == 4:
@@ -283,7 +293,8 @@ def IncrementSequenceBuild_Gonnet(seqlen, d):
         t1 = int(t1 // 2.2)
     return
 
-#归并排序
+
+# 归并排序
 def mergesort(x):
     step = 1
     while step < len(x):
