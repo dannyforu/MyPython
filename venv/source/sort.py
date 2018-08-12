@@ -132,10 +132,10 @@ def buildheap(x, ptype=1):
 
 
 # 快速排序, 非递归方式
-def quicksort2(x, start=-1, end=-1):
-    if start == -1:
+def quicksort2(x, start=-100, end=-100):
+    if start == -100:
         start = 0
-    if end == -1:
+    if end == -100:
         end = len(x) - 1
     stack = []
     node = [start, end]
@@ -169,11 +169,11 @@ def quicksort2(x, start=-1, end=-1):
 
 
 # 快速排序, 递归方式
-def quicksort(x, start=-1, end=-1):
+def quicksort(x, start=-100, end=-100):
     # print(start,end)
-    if start == -1:
+    if start == -100:
         start = 0
-    if end == -1:
+    if end == -100:
         end = len(x) - 1
     if start >= end:
         return
